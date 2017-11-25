@@ -14,7 +14,7 @@
 	if ($result) {
 		if (mysqli_num_rows($result) > 0) {
 			// Verify username and password.
-			$query = sprintf("SELECT id, username, password FROM Consultants WHERE UPPER(username) = '%s' AND password = '%s'", strtoupper($_POST['login_username']), $_POST['login_password']);
+			$query = sprintf("SELECT id, first_name, last_name, username, password FROM Consultants WHERE UPPER(username) = '%s' AND password = '%s'", strtoupper($_POST['login_username']), $_POST['login_password']);
 			$result = mysqli_query($conex, $query);
 
 			if ($result) {
@@ -22,6 +22,7 @@
 					$row = mysqli_fetch_array($result);
 					session_start();
 					$_SESSION["user_id"] = $row[0];
+					$_SESSION["user_fname"] = $row[1];
 					setcookie("logged_in", TRUE, time() + 86400); // Logged in
 					header("Location: staff.php");
 				} else {
